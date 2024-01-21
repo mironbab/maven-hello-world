@@ -54,5 +54,7 @@ jobs:
       with:
         name: github-actions-artifact
         path: target/
+      cd /home/runner/work/maven-hello-world/maven-hello-world/target
+      ls
 
       
