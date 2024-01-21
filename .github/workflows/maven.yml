@@ -29,6 +29,10 @@ jobs:
 
     - name: Build hello-world app and increase app vervion
       run: |
+        pwd
+        ls -l
+        cd myapp
+        ls -l
         mvn -B package /home/runner/work/maven-hello-world/myapp/pom.xml
 
     - name: Build hello-world app and increase app vervion
