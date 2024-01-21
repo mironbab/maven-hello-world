@@ -30,7 +30,7 @@ jobs:
     - name: Build hello-world app and increase app vervion
       run: |
         cd my-app
-        mvn -B package . pom.xml
+        mvn -B package
         
 
    
