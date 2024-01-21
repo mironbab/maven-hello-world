@@ -34,7 +34,7 @@ jobs:
         ls
         cd myapp
         ls
-        mvn -B package pom.xml
+        mvn -B package
 
     - name: Build hello-world app and increase app vervion
       run: |
