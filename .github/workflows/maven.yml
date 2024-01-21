@@ -6,6 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 # --file /myapp
+#mvn -B package -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml
 
 name: Java CI with Maven - Rafael 
 
@@ -33,7 +34,7 @@ jobs:
         ls
         cd myapp
         ls
-        mvn -B package -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml
+        mvn -B package pom.xml
 
     - name: Build hello-world app and increase app vervion
       run: |
