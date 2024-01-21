@@ -39,7 +39,7 @@ jobs:
         mvn -B package
         VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $VERSION
-        java -cp target/classes com.mycompany.app.App
+        java -cp target/classes com.myapp.app.App
         mkdir artifact-app && cp target/*.jar artifact-app
 
     - name: Publish to Artifact
