@@ -65,7 +65,7 @@ jobs:
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
-        docker login -u mironbabay --password-stdin shalombab@1
+        docker login -user mironbab --password-stdin shalombab@1
         docker tag hello-world-app:$MVN_VERSION mironbab/hello-world-app:$MVN_VERSION
         docker push mironbab/hello-world-app:$MVN_VERSION
         
