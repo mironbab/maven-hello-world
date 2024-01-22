@@ -9,7 +9,7 @@ COPY ./ ./
 FROM openjdk:8-jre-alpine3.9
 # ii.	The  Docker image shouldn't run with root 
 ENV SERVICE_NAME="mironbab"
-ARG mvnversion=appversion
+ARG mvnversion=1.0.1
 ENV MVN_VERSION=$mvnversion
 RUN addgroup --gid 1001 -S $SERVICE_NAME && \
     adduser -G $SERVICE_NAME --shell /bin/false --disabled-password -H --uid 1001 $SERVICE_NAME && \
