@@ -66,12 +66,12 @@ jobs:
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
         docker login -u ${{ secrets.USER_NAME }} -p ${{ secrets.USER_PASS }}
-        docker tag hello-world-app:$MVN_VERSION 102030102030/hello-world-app:$MVN_VERSION
-        docker push 102030102030/hello-world-app:$MVN_VERSION
+        docker tag hello-world-app:$MVN_VERSION mironbab/hello-world-app:$MVN_VERSION
+        docker push mironbab/hello-world-app:$MVN_VERSION
         
     - name: Run a Docker Container :) DONE!
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
-        docker run -d -p 8080:8080 --name mironapplicationmaven 102030102030/hello-world-app:$MVN_VERSION
+        docker run -d -p 8080:8080 --name mironapplicationmaven mironbab/hello-world-app:$MVN_VERSION
