@@ -5,9 +5,7 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-# run: |
-      #  cd myapp
-      #  mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit 
+# 
       
 
 name: Java CI with Maven - Rafael 
@@ -33,24 +31,35 @@ jobs:
     - name: Increase app vervion
       run: |
         cd myapp
-        mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
-        mvn -B package
-        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo $MVN_VERSION
-        java -cp target/classes com.myapp.App
-        mkdir artifact-app && cp target/*.jar artifact-app 
+        mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit 
       
-    
-    - name: Publish to Artifact
+    - name: Build hello-world app
+      run: |
+        cd myapp
+        mvn -B package
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $VERSION
+        java -cp target/classes com.myapp.App
+        mkdir artifact-app && cp target/*.jar artifact-app
+
+    - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: github-actions-artifact
+        name: my-artifact
         path: myapp/artifact-app
   
   
-    - name: Download from Artifact
+    - name: Download Artifact
       uses: actions/download-artifact@v3
       with:
-        name: github-actions-artifact
+        name: my-artifact
         path: target/
       
+    - name: Create a Docker Image
+      run: |
+        cd myapp
+        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $MVN_VERSION
+        docker build -t hello-world-app:$MVN_VERSION .
+
+    
