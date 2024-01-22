@@ -60,4 +60,18 @@ jobs:
         echo $MVN_VERSION
         docker build -t hello-world-app:$MVN_VERSION .
 
-    
+    - name: Push Image to DockerHub
+      run: |
+        cd my-app
+        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $MVN_VERSION
+        docker login -u ${{ secrets.USER_NAME }} -p ${{ secrets.USER_PASS }}
+        docker tag my-app-tomerangel:$MVN_VERSION 102030102030/my-app-tomerangel:$MVN_VERSION
+        docker push 102030102030/my-app-tomerangel:$MVN_VERSION
+        
+    - name: Run a Docker Container :) DONE!
+      run: |
+        cd my-app
+        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $MVN_VERSION
+        docker run -d -p 8080:8080 --name tomerapplicationmaven 102030102030/my-app-tomerangel:$MVN_VERSION
