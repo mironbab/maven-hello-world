@@ -37,8 +37,6 @@ jobs:
       run: |
         cd myapp
         mvn -B package
-        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo $VERSION
         java -cp target/classes com.myapp.App
         mkdir artifact-app && cp target/*.jar artifact-app
 
