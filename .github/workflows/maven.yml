@@ -5,8 +5,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-# --file /myapp
-#mvn -B package -f /home/runner/work/maven-hello-world/maven-hello-world/myapp/pom.xml
+# run: |
+      #  cd myapp
+      #  mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit 
+      
 
 name: Java CI with Maven - Rafael 
 
@@ -30,8 +32,13 @@ jobs:
 
     - name: Increase app vervion
       run: |
-        cd myapp
-        mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit 
+        cd my-app
+        mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
+        mvn -B package
+        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $MVN_VERSION
+        java -cp target/classes com.mycompany.app.App
+        mkdir artifact-app && cp target/*.jar artifact-app 
       
     - name: Build hello-world app
       run: |
