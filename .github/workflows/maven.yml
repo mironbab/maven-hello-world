@@ -5,7 +5,7 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-# 
+# docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       
 
 name: Java CI with Maven - Rafael 
@@ -65,8 +65,7 @@ jobs:
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
-        
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker login -u mironbab -p shalombab@1
         docker tag hello-world-app:$MVN_VERSION mironbab/hello-world-app:$MVN_VERSION
         docker push mironbab/hello-world-app:$MVN_VERSION
         
