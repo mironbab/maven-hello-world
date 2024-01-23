@@ -58,7 +58,7 @@ jobs:
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     
-    - name: Create a Docker Image
+    -name: Create a Docker Image
       run: |
         echo $MVN_VERSION
         docker build --build-arg mvnversion=$MVN_VERSION -t hello-world-app:$MVN_VERSION .
