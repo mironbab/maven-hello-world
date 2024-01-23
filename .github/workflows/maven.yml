@@ -78,8 +78,9 @@ jobs:
 
     - name: Create Helm chart
       run: |
-        cd myapp/helm
+        cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
+        cd helm
         sed -i 's/tag: ""/tag: $MVN_VERSION/g' values.yaml
-        echo values.yaml
+        cat values.yaml
