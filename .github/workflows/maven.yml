@@ -76,11 +76,13 @@ jobs:
         echo $MVN_VERSION
         docker run -d -p 8080:8080 --name mironapplicationmaven mironbab/hello-world-app:$MVN_VERSION
 
-    - name: Create Helm chart
+    - name: Install Helm chart
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
         cd helm
-        sed -i 's/tag: ""/tag: $MVN_VERSION/g' values.yaml
-        cat values.yaml
+        sed -i 's/appVersion: "1.16.0"/appVersion: $MVN_VERSION/g' Chart.yaml
+        cat chart.yaml
+        helm install hello-world-app .
+        helm status hello-world-app
