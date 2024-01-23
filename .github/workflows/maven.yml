@@ -69,9 +69,16 @@ jobs:
         docker tag hello-world-app:$MVN_VERSION mironbab/hello-world-app:$MVN_VERSION
         docker push mironbab/hello-world-app:$MVN_VERSION
         
-    - name: Run a Docker Container :) DONE!
+    - name: Run a Docker Container
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
         docker run -d -p 8080:8080 --name mironapplicationmaven mironbab/hello-world-app:$MVN_VERSION
+
+    - name: Create Helm chart
+      run: |
+        cd myapp/helm
+        MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo $MVN_VERSION
+        ls
