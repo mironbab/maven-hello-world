@@ -82,7 +82,8 @@ jobs:
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
         cd helm
-        sed -i -- 's/appVersion: "1.16.0"/appVersion: $MVN_VERSION/g' Chart.yaml
+        
+        sed -i "s/appVersion: \"1.16.0\"/appVersion: $MVN_VERSION/g" Chart.yaml
         cat Chart.yaml
         helm install hello-world-app .
         helm status hello-world-app
