@@ -9,16 +9,16 @@ COPY ./ ./
 FROM openjdk:8-jre-alpine3.9
 # ii.	The  Docker image shouldn't run with root 
 ENV SERVICE_NAME="mironbab"
-ARG mvnversion=1.0.1
+ARG mvnversion=1.0.0
 ENV MVN_VERSION=$mvnversion
-RUN addgroup --gid 1001 -S $SERVICE_NAME && \
-    adduser -G $SERVICE_NAME --shell /bin/false --disabled-password -H --uid 1001 $SERVICE_NAME && \
-    mkdir -p /var/log/$SERVICE_NAME && \
-    chown $SERVICE_NAME:$SERVICE_NAME /var/log/$SERVICE_NAME
+RUN addgroup --system --gid 1001 $SERVICE_NAME
+RUN adduser --system uid 1001 ingroup $SERVICE_NAME $SERVICE_NAME
+RUN mkdir -p /var/log/$SERVICE_NAME
+RUN chown $SERVICE_NAME:$SERVICE_NAME /var/log/$SERVICE_NAME
+USER $SERVICE_NAME
 # copy only the artifacts we need from the first stage and discard the rest
 # COPY /home/runner/work/maven-hello-world/maven-hello-world/target/my-app-1.0.1.jar /app/my-app.jar -- copy from artifact!! but the bouns we want multistage docker!
 COPY --from=MAVEN_BUILD /usr/app/target/myapp-1.0.1.jar /my-app.jar
 # set the startup command to execute the jar
 EXPOSE 8080
-USER $SERVICE_NAME
 CMD ["java", "-jar", "/my-app.jar"]
