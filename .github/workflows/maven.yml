@@ -81,4 +81,5 @@ jobs:
         cd myapp/helm
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
-        ls
+        sed -i 's/tag: ""/tag: $MVN_VERSION/g' values.yaml
+        echo values.yaml
