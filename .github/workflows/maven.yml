@@ -75,3 +75,4 @@ jobs:
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         echo $MVN_VERSION
         docker run -d -p 8080:8080 --name mironapplicationmaven mironbab/hello-world-app:$MVN_VERSION
+        docker logs --name mironapplicationmaven 
