@@ -52,11 +52,14 @@ jobs:
       with:
         name: my-artifact
         path: target/
-      
-    - name: Create a Docker Image
+    
+    -name: Add global variable
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    
+    - name: Create a Docker Image
+      run: |
         echo $MVN_VERSION
         docker build --build-arg mvnversion=$MVN_VERSION -t hello-world-app:$MVN_VERSION .
 
@@ -64,7 +67,6 @@ jobs:
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo $MVN_VERSION
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker tag hello-world-app:$MVN_VERSION mironbab/hello-world-app:$MVN_VERSION
         docker push mironbab/hello-world-app:$MVN_VERSION
@@ -73,14 +75,12 @@ jobs:
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo $MVN_VERSION
         docker run -d -p 8080:8080 --name mironapplicationmaven mironbab/hello-world-app:$MVN_VERSION
 
     - name: Install Helm chart
       run: |
         cd myapp
         MVN_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo $MVN_VERSION
         cd helm
         sed -i "s/appVersion: \"1.16.0\"/appVersion: $MVN_VERSION/g" Chart.yaml
         helm install hello-world-app .
